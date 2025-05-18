@@ -1,23 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AutoHeal Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h1>System Health Logs</h1>
-  <ul id="logList"></ul>
+<body class="bg-gray-100 text-gray-900 min-h-screen">
+  <header class="bg-indigo-600 text-white py-4 shadow">
+    <div class="max-w-4xl mx-auto px-4">
+      <h1 class="text-2xl font-bold">🩺 AutoHeal SRE Dashboard</h1>
+      <p class="text-sm opacity-90">Live system health logs and alerts</p>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-6">
+    <section class="mb-6">
+      <h2 class="text-xl font-semibold mb-2">📜 Recent Logs</h2>
+      <div class="overflow-x-auto rounded shadow bg-white">
+        <table class="w-full text-left border-collapse">
+          <thead class="bg-gray-200 text-sm">
+            <tr>
+              <th class="p-3 border-b">Timestamp</th>
+              <th class="p-3 border-b">Status</th>
+              <th class="p-3 border-b">Details</th>
+            </tr>
+          </thead>
+          <tbody id="log-table" class="text-sm">
+            <!-- Logs will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <div class="text-sm text-gray-600">Last updated: <span id="last-updated">Never</span></div>
+  </main>
 
   <script>
-    fetch('/metrics')
-      .then(res => res.json())
-      .then(data => {
-        const list = document.getElementById('logList');
-        data.forEach(entry => {
-          const li = document.createElement('li');
-          li.textContent = `${entry.timestamp} — ${entry.status} — ${entry.details}`;
-          list.appendChild(li);
-        });
+    async function fetchLogs() {
+      const response = await fetch('/metrics');
+      const logs = await response.json();
+
+      const table = document.getElementById('log-table');
+      table.innerHTML = ''; // Clear table
+
+      logs.reverse().forEach(entry => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="p-3 border-b">${entry.timestamp}</td>
+          <td class="p-3 border-b ${entry.status.trim() === 'DOWN' ? 'text-red-600 font-bold' : 'text-green-600'}">
+            ${entry.status}
+          </td>
+          <td class="p-3 border-b">${entry.details}</td>
+        `;
+        table.appendChild(row);
       });
+
+      document.getElementById('last-updated').textContent = new Date().toLocaleString();
+    }
+
+    fetchLogs();
+    setInterval(fetchLogs, 10000); // Refresh every 10 seconds
   </script>
 </body>
 </html>
