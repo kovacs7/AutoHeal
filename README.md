@@ -1,5 +1,5 @@
 
-# 🔧 AutoHeal — Self-Healing Infrastructure with Alerting (MLH SRE Project)
+# 🔧 AutoHeal — Self-Healing Infrastructure with Alerting
 
 > **AutoHeal** is a self-healing automation system built for Site Reliability Engineering (SRE) use-cases. It continuously monitors your local service (like a Node.js server), logs the health status, and automatically **restores it** when failure is detected. Real-time alerts are sent via Discord Webhook.
 
