@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AutoHeal Dashboard</title>
+</head>
+<body>
+  <h1>System Health Logs</h1>
+  <ul id="logList"></ul>
+
+  <script>
+    fetch('/metrics')
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById('logList');
+        data.forEach(entry => {
+          const li = document.createElement('li');
+          li.textContent = `${entry.timestamp} — ${entry.status} — ${entry.details}`;
+          list.appendChild(li);
+        });
+      });
+  </script>
+</body>
+</html>
