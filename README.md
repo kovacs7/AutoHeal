@@ -39,6 +39,9 @@ It’s simple, extensible, and just works:
 * 🛎️ Sends alerts the moment downtime happens—no surprises later.
 
 ---
+<img width="1432" alt="Image" src="https://github.com/user-attachments/assets/1f87780d-5324-41a6-b6ac-b34255ac78e5" />
+<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/46bac8a6-87c6-432a-81c4-5b66f24a514c" />
+---
 ## 📁 Folder Structure
 
 ```
